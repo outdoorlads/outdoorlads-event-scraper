@@ -6,11 +6,18 @@ import time
 
 BASE_URL = "https://www.outdoorlads.com"
 
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Referer": "https://www.google.com"
+}
+
 def get_event_details(link):
     try:
-        res = requests.get(link)
+        res = requests.get(link, headers=HEADERS, timeout=10)
         soup = BeautifulSoup(res.content, 'html.parser')
-        summary = soup.select_one('.event-description .field-items .field-item').text.strip() if soup.select_one('.event-description .field-items .field-item') else ''
+        summary = soup.select_one('.event-description .field-items .field-item')
+        summary = summary.text.strip() if summary else ''
         time_el = soup.find(text="Start time")
         if time_el:
             time_row = time_el.find_parent('div')
@@ -18,7 +25,8 @@ def get_event_details(link):
         else:
             start_time = ''
         return start_time, summary
-    except Exception:
+    except Exception as e:
+        print(f"Error getting event details from {link}: {e}")
         return '', ''
 
 def fetch_events():
@@ -27,8 +35,12 @@ def fetch_events():
 
     while True:
         url = f"{BASE_URL}/events?field_event_type_target_id=All&page={page}"
-        res = requests.get(url)
+        res = requests.get(url, headers=HEADERS, timeout=10)
         soup = BeautifulSoup(res.content, 'html.parser')
+
+        # Save HTML for debugging
+        with open(f"debug_page_{page}.html", "w", encoding="utf-8") as f:
+            f.write(res.text)
 
         events = soup.select('.views-row')
         if not events:
@@ -44,7 +56,7 @@ def fetch_events():
 
             # Fetch additional details from individual event page
             start_time, summary = get_event_details(link)
-            time.sleep(1)  # be kind to the server
+            time.sleep(1)  # delay between requests
 
             results.append({
                 'title': title,
