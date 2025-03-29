@@ -44,6 +44,10 @@ def fetch_events():
     res = requests.get(LISTING_URL, headers=HEADERS, timeout=10)
     soup = BeautifulSoup(res.content, 'html.parser')
 
+    # Save HTML debug file
+    with open("debug_page_0.html", "w", encoding="utf-8") as f:
+        f.write(res.text)
+
     events = soup.select('.view-content > div')
     results = []
 
@@ -67,7 +71,6 @@ def fetch_events():
         event_type_el = event.select_one('.event-type')
         event_type = event_type_el.text.strip() if event_type_el else ''
 
-        # Visit individual event page
         start_time, summary, availability, waitlist = get_event_details(link)
         time.sleep(1)
 
