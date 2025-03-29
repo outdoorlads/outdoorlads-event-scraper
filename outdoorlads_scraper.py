@@ -40,55 +40,61 @@ def get_event_details(link):
         print(f"Error getting details from {link}: {e}")
         return '', '', 'Unknown', '0'
 
-def fetch_events():
-    res = requests.get(LISTING_URL, headers=HEADERS, timeout=10)
-    soup = BeautifulSoup(res.content, 'html.parser')
-
-    # Save HTML debug file
-    with open("debug_page_0.html", "w", encoding="utf-8") as f:
-        f.write(res.text)
-
-    events = soup.select('.view-content > div')
+def fetch_all_events():
     results = []
+    for page in range(0, 100):  # Cap at 100 pages for safety
+        url = f"{LISTING_URL}?page={page}"
+        print(f"Fetching page {page}: {url}")
+        res = requests.get(url, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(res.content, 'html.parser')
 
-    for event in events:
-        title_el = event.select_one('.field-content a')
-        title = title_el.text.strip() if title_el else ''
-        link = BASE_URL + title_el['href'] if title_el else ''
+        # Save debug HTML for the first page only
+        if page == 0:
+            with open("debug_page_0.html", "w", encoding="utf-8") as f:
+                f.write(res.text)
 
-        date_month = event.select_one('.events-listing__month')
-        date_day = event.select_one('.events-listing__day')
-        date_year = event.select_one('.tw-text-md')
+        events = soup.select('.view-content > div')
+        if not events:
+            print("No events found, stopping.")
+            break
 
-        if date_month and date_day and date_year:
-            date_str = f"{date_day.text.strip()} {date_month.text.strip()} {date_year.text.strip()}"
-        else:
-            date_str = ''
+        for event in events:
+            title_el = event.select_one('.field-content a')
+            title = title_el.text.strip() if title_el else ''
+            link = BASE_URL + title_el['href'] if title_el else ''
 
-        location_el = event.select_one('.event-location')
-        location = location_el.text.strip() if location_el else ''
+            date_month = event.select_one('.events-listing__month')
+            date_day = event.select_one('.events-listing__day')
+            date_year = event.select_one('.tw-text-md')
 
-        event_type_el = event.select_one('.event-type')
-        event_type = event_type_el.text.strip() if event_type_el else ''
+            if date_month and date_day and date_year:
+                date_str = f"{date_day.text.strip()} {date_month.text.strip()} {date_year.text.strip()}"
+            else:
+                date_str = ''
 
-        start_time, summary, availability, waitlist = get_event_details(link)
-        time.sleep(1)
+            location_el = event.select_one('.event-location')
+            location = location_el.text.strip() if location_el else ''
 
-        results.append({
-            'title': title,
-            'link': link,
-            'date': date_str,
-            'start_time': start_time,
-            'location': location,
-            'event_type': event_type,
-            'availability': availability,
-            'waitlist': waitlist,
-            'summary': summary
-        })
+            event_type_el = event.select_one('.event-type')
+            event_type = event_type_el.text.strip() if event_type_el else ''
 
+            start_time, summary, availability, waitlist = get_event_details(link)
+            time.sleep(1)
+
+            results.append({
+                'title': title,
+                'link': link,
+                'date': date_str,
+                'start_time': start_time,
+                'location': location,
+                'event_type': event_type,
+                'availability': availability,
+                'waitlist': waitlist,
+                'summary': summary
+            })
     return pd.DataFrame(results)
 
 if __name__ == "__main__":
-    df = fetch_events()
+    df = fetch_all_events()
     df['scraped_at'] = datetime.now()
     df.to_json('odl_events.json', orient='records', indent=2)
