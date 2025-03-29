@@ -2,7 +2,7 @@ name: Scrape OutdoorLads
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Run once per hour
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -27,7 +27,6 @@ jobs:
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions"
-          git add odl_events.json
+          git add odl_events.json *.html
           git commit -m "Update event data" || echo "No changes to commit"
           git push origin HEAD:main
-
