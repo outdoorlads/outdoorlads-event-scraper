@@ -3,10 +3,9 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
 import time
+from urllib.parse import urljoin
 
 BASE_URL = "https://www.outdoorlads.com"
-LISTING_URL = f"{BASE_URL}/events"
-
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -42,40 +41,33 @@ def get_event_details(link):
 
 def fetch_all_events():
     results = []
-    for page in range(0, 100):  # Cap at 100 pages for safety
-        url = f"{LISTING_URL}?page={page}"
+    for page in range(0, 100):  # Max 100 pages
+        url = f"{BASE_URL}/events?page={page}"
         print(f"Fetching page {page}: {url}")
         res = requests.get(url, headers=HEADERS, timeout=10)
         soup = BeautifulSoup(res.content, 'html.parser')
 
-        # Save debug HTML for the first page only
         if page == 0:
             with open("debug_page_0.html", "w", encoding="utf-8") as f:
                 f.write(res.text)
 
-        events = soup.select('.view-content > div')
+        events = soup.select('div.views-row')
         if not events:
-            print("No events found, stopping.")
             break
 
         for event in events:
-            title_el = event.select_one('.field-content a')
+            title_el = event.select_one('.views-field-title a')
             title = title_el.text.strip() if title_el else ''
-            link = BASE_URL + title_el['href'] if title_el else ''
+            relative_link = title_el['href'] if title_el and 'href' in title_el.attrs else ''
+            link = urljoin(BASE_URL, relative_link)
 
-            date_month = event.select_one('.events-listing__month')
-            date_day = event.select_one('.events-listing__day')
-            date_year = event.select_one('.tw-text-md')
-
-            if date_month and date_day and date_year:
-                date_str = f"{date_day.text.strip()} {date_month.text.strip()} {date_year.text.strip()}"
-            else:
-                date_str = ''
+            date_el = event.select_one('.event-date')
+            date_str = date_el.text.strip() if date_el else ''
 
             location_el = event.select_one('.event-location')
             location = location_el.text.strip() if location_el else ''
 
-            event_type_el = event.select_one('.event-type')
+            event_type_el = event.select_one('.field-event-type')
             event_type = event_type_el.text.strip() if event_type_el else ''
 
             start_time, summary, availability, waitlist = get_event_details(link)
