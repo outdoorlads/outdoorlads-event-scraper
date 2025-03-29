@@ -23,10 +23,11 @@ jobs:
       - name: Run scraper
         run: python outdoorlads_scraper.py
 
-      - name: Commit updated data
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions"
-          git add odl_events.json debug_page_0.html || echo "No files to add"
-          git commit -m "Update event data or debug file" || echo "No changes to commit"
-          git push origin HEAD:main
+- name: Commit updated data
+  run: |
+    git config --global user.email "github-actions@github.com"
+    git config --global user.name "github-actions"
+    git add odl_events.json debug_page_0.html || echo "No files to add"
+    git commit -m "Update event data or debug file" || echo "No changes to commit"
+    git push origin HEAD:main
+
