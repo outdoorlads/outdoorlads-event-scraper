@@ -1,97 +1,95 @@
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
+from urllib.parse import urljoin
 from datetime import datetime
 import time
-from urllib.parse import urljoin
 
 BASE_URL = "https://www.outdoorlads.com"
-HEADERS = {
+headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
                   " AppleWebKit/537.36 (KHTML, like Gecko)"
                   " Chrome/120.0.0.0 Safari/537.36"
 }
 
-def fetch_event_details(event_url):
-    response = requests.get(event_url, headers=HEADERS)
-    soup = BeautifulSoup(response.text, 'html.parser')
+events = []
 
-    summary_el = soup.select_one('.event-description .field-items .field-item')
-    summary = summary_el.text.strip() if summary_el else "No description available."
+for page_num in range(0, 100):
+    print(f"Scraping page {page_num}...")
+    page_url = f"{BASE_URL}/events?page={page_num}"
+    page_response = requests.get(page_url, headers=headers)
+    soup = BeautifulSoup(page_response.content, "html.parser")
 
-    start_time_el = soup.find("div", string="Start time")
-    start_time = start_time_el.find_next('div').text.strip() if start_time_el else "N/A"
+    event_listings = soup.select('div.views-row')
+    
+    if not event_listings:
+        print("No more events found, stopping.")
+        break
 
-    availability_el = soup.select_one('.availability')
-    availability = availability_el.text.strip() if availability_el else "Unknown"
+    for event in event_listings:
+        link_tag = event.select_one('.views-field-title a')
+        if link_tag:
+            event_link = urljoin(BASE_URL, link_tag['href'])
+            event_title = link_tag.text.strip()
 
-    waitlist = "0"
-    if 'waitlist' in availability.lower():
-        waitlist = ''.join(filter(str.isdigit, availability.lower().split('waitlist')[1]))
+            event_page_response = requests.get(event_link, headers=headers)
+            event_soup = BeautifulSoup(event_page_response.content, "html.parser")
 
-    return summary, start_time, availability, waitlist
+            # Event details
+            date = event_soup.select_one('.date-display-single').text.strip() if event_soup.select_one('.date-display-single') else "Unknown"
+            
+            start_time_label = event_soup.find('div', string="Start time")
+            start_time = start_time_label.find_next_sibling('div').text.strip() if start_time_label else "Unknown"
+            
+            region_label = event_soup.find('div', string="Region")
+            region = region_label.find_next_sibling('div').text.strip() if region_label else "Unknown"
 
-def scrape_events():
-    events_list = []
-    page = 0
+            location_label = event_soup.find('div', string="Venue")
+            location = location_label.find_next_sibling('div').text.strip() if location_label else "Unknown"
 
-    while True:
-        page_url = f"{BASE_URL}/events?page={page}"
-        print(f"Scraping page {page}: {page_url}")
+            event_type_label = event_soup.find('div', string="Event type")
+            event_type = event_type_label.find_next_sibling('div').text.strip() if event_type_label else "Unknown"
 
-        res = requests.get(page_url, headers=HEADERS)
-        soup = BeautifulSoup(res.text, 'html.parser')
+            availability_el = event_soup.select_one('.availability')
+            availability = availability_el.text.strip() if availability_el else "Unknown"
 
-        # Save debug file for first page
-        if page == 0:
-            with open("debug_page_0.html", "w", encoding="utf-8") as debug_file:
-                debug_file.write(res.text)
+            waitlist = "0"
+            if 'waitlist' in availability.lower():
+                waitlist = ''.join(filter(str.isdigit, availability.lower().split('waitlist')[1]))
 
-        events = soup.select('div.views-row')
-        if not events:
-            print("No more events found. Ending pagination.")
-            break
+            summary_el = event_soup.select_one('.event-description .field-item')
+            summary = summary_el.text.strip() if summary_el else "No description available."
 
-        for event in events:
-            title_el = event.select_one('.views-field-title a')
-            title = title_el.text.strip() if title_el else "No title"
+            # Structured event data
+            event_data = {
+                "Title": event_title,
+                "Date": date,
+                "Start Time": start_time,
+                "Region": region,
+                "Location": location,
+                "Event Type": event_type,
+                "Availability": availability,
+                "Waitlist": waitlist,
+                "Summary": summary,
+                "Link": event_link
+            }
 
-            relative_link = title_el.get('href', '')
-            link = urljoin(BASE_URL, relative_link)
+            events.append(event_data)
+            print(f"Scraped event: {event_title}")
+            time.sleep(1)  # respectful scraping delay
 
-            date_el = event.select_one('.event-date')
-            date = date_el.text.strip() if date_el else "No date"
+# Saving the results to a nicely formatted text file
+with open("OutdoorLads_events.txt", "w", encoding="utf-8") as file:
+    for event in events:
+        file.write(f"{event['Title']}\n")
+        file.write(f"Date: {event['Date']}\n")
+        file.write(f"Start Time: {event['Start Time']}\n")
+        file.write(f"Region: {event['Region']}\n")
+        file.write(f"Location: {event['Location']}\n")
+        file.write(f"Event Type: {event['Event Type']}\n")
+        file.write(f"Availability: {event['Availability']}\n")
+        file.write(f"Waitlist: {event['Waitlist']}\n")
+        file.write(f"Summary: {event['Summary']}\n")
+        file.write(f"Link: {event['Link']}\n")
+        file.write("-" * 40 + "\n")
 
-            location_el = event.select_one('.event-location')
-            location = location_el.text.strip() if location_el else "No location"
-
-            event_type_el = event.select_one('.field-event-type')
-            event_type = event_type_el.text.strip() if event_type_el else "Not specified"
-
-            summary, start_time, availability, waitlist = fetch_event_details(link)
-            time.sleep(1)  # Be polite to the server
-
-            events_list.append({
-                "title": title,
-                "date": date,
-                "start_time": start_time,
-                "location": location,
-                "event_type": event_type,
-                "availability": availability,
-                "waitlist": waitlist,
-                "summary": summary,
-                "link": link
-            })
-
-        page += 1
-        if page >= 100:
-            print("Reached 100-page limit. Ending scraping.")
-            break
-
-    df = pd.DataFrame(events_list)
-    df['scraped_at'] = datetime.now()
-    df.to_json('odl_events.json', orient='records', indent=2)
-    print(f"Scraped {len(events_list)} events successfully.")
-
-if __name__ == "__main__":
-    scrape_events()
+print(f"\nScraping completed. {len(events)} events saved to OutdoorLads_events.txt")
