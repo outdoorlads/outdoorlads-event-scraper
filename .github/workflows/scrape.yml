@@ -18,16 +18,10 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install requests beautifulsoup4
+        run: pip install -r requirements.txt
 
       - name: Run scraper
         run: python outdoorlads_scraper.py
-
-      - name: Upload CSV file as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: outdoorlads-events
-          path: events.csv
 
       - name: Commit files back to repo
         run: |
