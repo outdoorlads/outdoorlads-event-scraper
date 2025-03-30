@@ -18,16 +18,17 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
 
       - name: Run scraper
-        run: python outdoorlads_scraper.py
+        run: |
+          python outdoorlads_scraper.py
 
-- name: Commit files back to repo
-  run: |
-    git config --global user.email "github-actions@github.com"
-    git config --global user.name "github-actions"
-    git add events.csv || echo "No events.csv file found"
-    git commit -m "Updated events data" || echo "No changes to commit"
-    git push origin HEAD:main
-
+      - name: Commit files back to repo
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions"
+          git add events.csv || echo "No events.csv file found"
+          git commit -m "Updated events data" || echo "No changes to commit"
+          git push origin HEAD:main
