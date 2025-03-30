@@ -1,59 +1,83 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+from urllib.parse import urljoin
+import time
 
 BASE_URL = "https://www.outdoorlads.com/events?page={}"
 
-def get_event_data(event):
-    """Extract data from a single event element."""
-    title = event.find("h2", class_="event-title").text.strip()
-    date = event.find("span", class_="event-date").text.strip()
-    start_time = event.find("span", class_="event-start-time").text.strip()
-    region = event.find("span", class_="event-region").text.strip()
-    location = event.find("span", class_="event-location").text.strip()
-    event_type = event.find("span", class_="event-type").text.strip()
-    availability = event.find("span", class_="event-availability").text.strip()
-    waitlist = event.find("span", class_="event-waitlist").text.strip()
-    summary = event.find("div", class_="event-summary").text.strip()
-    link = event.find("a", class_="event-link")['href']
+def get_event_links(page_url):
+    res = requests.get(page_url)
+    soup = BeautifulSoup(res.text, 'html.parser')
+    links = [urljoin("https://www.outdoorlads.com", a['href'])
+             for a in soup.select('.views-field-title a')]
+    return links
+
+def get_event_details(event_url):
+    res = requests.get(event_url)
+    soup = BeautifulSoup(res.text, 'html.parser')
+    
+    title = soup.select_one('h1').text.strip()
+    date = soup.select_one('.date-display-single').text.strip() if soup.select_one('.date-display-single') else "Unknown"
+    start_time_label = soup.find('div', string="Start time")
+    start_time = start_time_label.find_next_sibling('div').text.strip() if start_time_label else "Unknown"
+    region_label = soup.find('div', string="Region")
+    region = region_label.find_next_sibling('div').text.strip() if region_label else "Unknown"
+    location_label = soup.find('div', string="Venue")
+    location = location_label.find_next_sibling('div').text.strip() if location_label else "Unknown"
+    event_type_label = soup.find('div', string="Event type")
+    event_type = event_type_label.find_next_sibling('div').text.strip() if event_type_label else "Unknown"
+    availability = soup.select_one('.availability').text.strip() if soup.select_one('.availability') else "Unknown"
+    waitlist = "0"
+    if 'waitlist' in availability.lower():
+        waitlist = ''.join(filter(str.isdigit, availability.lower().split('waitlist')[1]))
+    summary_el = soup.select_one('.event-description .field-item')
+    summary = summary_el.text.strip() if summary_el else "No description available."
+    link = event_url
     
     return {
-        "title": title,
-        "date": date,
-        "start_time": start_time,
-        "region": region,
-        "location": location,
-        "event_type": event_type,
-        "availability": availability,
-        "waitlist": waitlist,
-        "summary": summary,
-        "link": link
+        "Title": title,
+        "Date": date,
+        "Start Time": start_time,
+        "Region": region,
+        "Location": location,
+        "Event Type": event_type,
+        "Availability": availability,
+        "Waitlist": waitlist,
+        "Summary": summary,
+        "Link": link
     }
 
 def scrape_events():
-    """Scrape event data from the website."""
-    events_data = []
-    for page in range(1, 101):  # Adjust the range to scrape up to 100 pages
-        url = BASE_URL.format(page)
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'html.parser')
+    all_events = []
+    for page in range(0, 100):
+        page_url = BASE_URL.format(page)
+        print(f"Scraping {page_url}")
+        event_links = get_event_links(page_url)
         
-        events = soup.find_all("div", class_="event")
-        for event in events:
-            event_data = get_event_data(event)
-            events_data.append(event_data)
+        if not event_links:
+            print("No more events, stopping.")
+            break
+        
+        for event_link in event_links:
+            print(f"Scraping event: {event_link}")
+            event_details = get_event_details(event_link)
+            all_events.append(event_details)
+            time.sleep(1)
     
-    return events_data
+    return all_events
 
-def save_to_csv(events_data, filename="events.csv"):
-    """Save event data to a CSV file."""
-    keys = events_data[0].keys()
-    with open(filename, 'w', newline='', encoding='utf-8') as output_file:
-        dict_writer = csv.DictWriter(output_file, fieldnames=keys)
-        dict_writer.writeheader()
-        dict_writer.writerows(events_data)
+def save_to_csv(events, filename="events.csv"):
+    keys = events[0].keys()
+    with open(filename, "w", newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, keys)
+        writer.writeheader()
+        writer.writerows(events)
 
 if __name__ == "__main__":
     events_data = scrape_events()
-    save_to_csv(events_data)
-    print(f"Scraped {len(events_data)} events and saved to events.csv")
+    if events_data:
+        save_to_csv(events_data)
+        print(f"{len(events_data)} events saved to events.csv")
+    else:
+        print("No events were scraped.")
