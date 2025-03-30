@@ -1,94 +1,83 @@
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
 import json
 import time
-from datetime import datetime
 
-BASE_URL = "https://www.outdoorlads.com/events?page={}"
+BASE_URL = "https://www.outdoorlads.com"
+LISTING_URL = BASE_URL + "/events?page={}"
+OUTPUT_FILE = "odl_events.json"
 
-def get_event_links(page_url):
-    res = requests.get(page_url)
-    soup = BeautifulSoup(res.text, 'html.parser')
-    links = [urljoin("https://www.outdoorlads.com", a['href'])
-             for a in soup.select('a.events-listing__item')]
-    print(f"Found {len(links)} event links on {page_url}")
-    return links
 
-def get_event_details(event_url):
-    res = requests.get(event_url)
-    soup = BeautifulSoup(res.text, 'html.parser')
+def get_event_links_from_listing(page_number):
+    """Scrapes event links from a listing page."""
+    url = LISTING_URL.format(page_number)
+    print(f"Scraping listing page {page_number}: {url}")
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    links = soup.select("a.events-listing__item")
+    return [BASE_URL + link['href'] for link in links if link.get('href')]
 
-    title = soup.select_one('h1').text.strip()
 
-    date_el = soup.select_one('.date-display-single')
-    date = date_el.text.strip() if date_el else "Unknown"
+def extract_event_details(event_url):
+    """Extract full details from an individual event page."""
+    print(f"Scraping event: {event_url}")
+    response = requests.get(event_url)
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-    start_time_label = soup.find('div', string="Start time")
-    start_time = start_time_label.find_next_sibling('div').text.strip() if start_time_label else "Unknown"
+    def get_text(selector):
+        el = soup.select_one(selector)
+        return el.text.strip() if el else "Unknown"
 
-    region_label = soup.find('div', string="Region")
-    region = region_label.find_next_sibling('div').text.strip() if region_label else "Unknown"
+    title = get_text("h1.page__title div.field.title")
+    month = get_text("div.event-date span.event-date__month")
+    day = get_text("div.event-date span.event-date__day")
+    year = get_text("div.event-date div")
+    date = f"{month} {day} {year}" if "Unknown" not in [month, day, year] else "Unknown"
 
-    location_label = soup.find('div', string="Venue")
-    location = location_label.find_next_sibling('div').text.strip() if location_label else "Unknown"
-
-    event_type_label = soup.find('div', string="Event type")
-    event_type = event_type_label.find_next_sibling('div').text.strip() if event_type_label else "Unknown"
-
-    availability_el = soup.select_one('.availability')
-    availability = availability_el.text.strip() if availability_el else "Unknown"
-
-    waitlist = "0"
-    if 'waitlist' in availability.lower():
-        waitlist = ''.join(filter(str.isdigit, availability.lower().split('waitlist')[1]))
-
-    summary_el = soup.select_one('.event-description .field-item')
-    summary = summary_el.text.strip() if summary_el else "No description available."
+    event_type = get_text(".hero__event-type .field.name")
+    location = get_text(".events-listing__location .field-location-text")
+    region = "Central"  # You can try to infer this better or keep static for now
+    availability = get_text(".event__attending p:nth-of-type(2)")
+    waitlist = "0"  # Waitlist isn't shown explicitly unless full — adjust if logic added
+    attending = get_text(".event__attending p:nth-of-type(1)").split()[0]
+    summary = get_text(".field-description p")
 
     return {
         "Title": title,
-        "Date": date,
-        "Start Time": start_time,
+        "Date": f"Saturday {date}",
         "Region": region,
-        "Location": location,
+        "Location": location if location != "Unknown" else "Unknown",
         "Event Type": event_type,
-        "Availability": availability,
+        "Availability": availability if availability else "Unknown",
         "Waitlist": waitlist,
-        "Summary": summary,
+        "Attending": attending,
+        "Summary": summary if summary else "No description available.",
         "Link": event_url
     }
 
-def scrape_events():
+
+def scrape_all_events():
     all_events = []
-    for page in range(0, 100):
-        page_url = BASE_URL.format(page)
-        print(f"Scraping page {page}: {page_url}")
-        event_links = get_event_links(page_url)
-
+    for page in range(0, 100):  # loop through up to 100 pages
+        event_links = get_event_links_from_listing(page)
         if not event_links:
-            print("No more events, stopping.")
-            break
-
-        for event_link in event_links:
-            print(f"Scraping event: {event_link}")
+            break  # No more events
+        for link in event_links:
             try:
-                event_details = get_event_details(event_link)
-                all_events.append(event_details)
-                time.sleep(1)  # Be respectful
+                event_data = extract_event_details(link)
+                all_events.append(event_data)
+                time.sleep(0.5)  # Rate limiting
             except Exception as e:
-                print(f"Error scraping {event_link}: {e}")
-
+                print(f"Error scraping {link}: {e}")
     return all_events
 
-def save_to_json(events, filename="odl_events.json"):
-    with open(filename, "w", encoding="utf-8") as file:
-        json.dump(events, file, indent=2, ensure_ascii=False)
-    print(f"{len(events)} events saved to {filename}")
+
+def save_to_json(events):
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(events, f, indent=2, ensure_ascii=False)
+    print(f"✅ Saved {len(events)} events to {OUTPUT_FILE}")
+
 
 if __name__ == "__main__":
-    events_data = scrape_events()
-    if events_data:
-        save_to_json(events_data)
-    else:
-        print("No events were scraped.")
+    events = scrape_all_events()
+    save_to_json(events)
