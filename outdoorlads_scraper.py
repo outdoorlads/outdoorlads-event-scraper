@@ -152,4 +152,139 @@ def scrape_event_details(event_url):
             summary_block = soup.find('div', class_='event-description') # <<< CHECK SELECTOR
         if summary_block:
             # Get text, replace multiple whitespace/newlines with single space
-            details['Summary
+            details['Summary'] = ' '.join(summary_block.get_text(separator=' ', strip=True).split())
+
+    except Exception as e:
+        print(f"Error parsing details on {event_url}: {e}")
+        # Log the error but keep default N/A values set earlier
+        details['Summary'] = f"Error parsing details: {e}" # Add error info to summary
+
+    # Basic validation/cleanup
+    for key, value in details.items():
+        if value is None:
+            details[key] = 'N/A' # Ensure no None values
+
+    return details
+
+
+# --- Main Function to Loop Through Pages and Scrape ---
+def scrape_all_events():
+    """Loops through event list pages, finds event links, and scrapes details."""
+    all_event_data = []
+    page_num = 0
+
+
+    print(f"Starting scrape. Max pages to check: {MAX_PAGES_TO_TRY}")
+    while page_num < MAX_PAGES_TO_TRY:
+        # Construct URL for the current list page
+        # Note: Check if the site uses 0-based or 1-based pagination
+        list_page_url = f"{BASE_URL}{EVENTS_LIST_PATH}?page={page_num}"
+        list_soup = get_soup(list_page_url)
+
+        if not list_soup:
+            print(f"Failed to retrieve or parse list page {page_num}, stopping pagination.")
+            break
+
+        # --- !!! CRITICAL: UPDATE THIS SELECTOR !!! ---
+        # Find the anchor tags (links) to individual event pages.
+        # Example: Links might be within <article> tags, or specific divs.
+        # Look for a pattern in the href like '/event/' or '/events/'
+        event_links_tags = list_soup.select('div.view-content div.views-row h3 a[href*="/event/"]') # <<< GUESS - CHECK
+        # Alternative: list_soup.select('article.event-card a.event-link[href*="/event/"]') # <<< GUESS - CHECK
+
+        if not event_links_tags:
+            # Sometimes the last page exists but is empty, or redirects.
+            # Check if the content area looks empty as a secondary check.
+            content_area = list_soup.find('div', class_='view-content') # <<< CHECK SELECTOR
+            if not content_area or not content_area.text.strip():
+                 print(f"No event links found or empty content on page {page_num}. Assuming end of list.")
+                 break
+            else:
+                 # Found content but the selector failed - indicates selector needs fixing!
+                 print(f"WARNING: Content found on page {page_num}, but link selector failed. Check CSS Selectors!")
+                 print(f"Stopping pagination to avoid infinite loop.")
+                 break
+
+
+        print(f"Found {len(event_links_tags)} potential event links on page {page_num}")
+
+        found_on_page = 0
+        for link_tag in event_links_tags:
+            relative_link = link_tag.get('href')
+            if relative_link and relative_link.strip():
+                found_on_page += 1
+                # Ensure the link is absolute
+                event_url = urljoin(BASE_URL, relative_link.strip())
+                print(f"---> Scraping Event: {event_url}")
+                event_details = scrape_event_details(event_url)
+                if event_details:
+                    all_event_data.append(event_details)
+                # --- CRUCIAL DELAY ---
+                print(f"--- Delaying {DELAY_EVENT_PAGE}s before next event ---")
+                time.sleep(DELAY_EVENT_PAGE)
+
+        if found_on_page == 0 and event_links_tags:
+             print(f"Selector found {len(event_links_tags)} tags, but no valid hrefs extracted on page {page_num}. Check selector/HTML.")
+             break # Stop if tags were found but no links extracted
+
+        page_num += 1
+        # --- CRUCIAL DELAY ---
+        print(f"=== Delaying {DELAY_LIST_PAGE}s before scraping page {page_num} ===")
+        time.sleep(DELAY_LIST_PAGE)
+
+    if page_num == MAX_PAGES_TO_TRY:
+        print(f"Reached maximum page limit ({MAX_PAGES_TO_TRY}). Stopping.")
+
+    return all_event_data
+
+# --- Function to Save Data ---
+def save_data(data, filepath):
+    """Saves the scraped data list of dictionaries to a CSV file."""
+    if not data:
+        print("No data to save.")
+        return
+
+    # Define CSV Headers - ensuring consistent order
+    fieldnames = [
+        'Title', 'Date', 'Start Time', 'Region', 'Location',
+        'EventType', 'Availability', 'Waitlist', 'Summary', 'Link'
+    ]
+    print(f"Saving {len(data)} events to {filepath}...")
+    try:
+        with open(filepath, 'w', newline='', encoding='utf-8') as csvfile:
+            # Use extrasaction='ignore' in case scrape_event_details returns extra keys
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames, extrasaction='ignore')
+            writer.writeheader()
+            writer.writerows(data)
+        print("Data saved successfully.")
+    except IOError as e:
+        print(f"Error writing CSV file: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred during saving: {e}")
+
+
+# --- Main Execution ---
+if __name__ == "__main__":
+    print("==========================================")
+    print(" Starting OutdoorLads Event Scraper ")
+    print("==========================================")
+    print(f"Output file will be: {OUTPUT_FILEPATH}")
+    print("Reminder: Check robots.txt and Terms of Service.")
+    print("Ensure CSS selectors in the script are up-to-date.")
+
+    # --- Run the scraper ---
+    start_time = time.time()
+    scraped_data = scrape_all_events()
+    end_time = time.time()
+    duration = end_time - start_time
+
+    print("\n==========================================")
+    print(" Scraping Finished ")
+    print("==========================================")
+    print(f"Total events found: {len(scraped_data)}")
+    print(f"Total time taken: {duration:.2f} seconds")
+
+    # --- Save the data ---
+    save_data(scraped_data, OUTPUT_FILEPATH)
+
+    print("\nScript execution complete.")
