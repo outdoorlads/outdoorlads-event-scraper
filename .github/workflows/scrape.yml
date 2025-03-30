@@ -1,37 +1,36 @@
 name: Scrape OutdoorLads Events
 
 on:
-  # Run automatically every day at 05:00 UTC (adjust as needed)
   schedule:
-    - cron: '0 5 * * *'
-
-  # Allow manual triggering from the GitHub Actions tab
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
   workflow_dispatch:
 
 jobs:
   scrape:
-    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4 # Use the latest checkout action
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v5 # Use the latest Python setup action
-        with:
-          python-version: '3.10' # Specify Python version (adjust if needed)
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
 
-      - name: Run scraper
-        run: python outdoorlads_scraper.py
+    - name: Run scraper
+      run: |
+        source venv/bin/activate
+        python event_scraper.py
 
-      - name: Upload results as artifact
-        uses: actions/upload-artifact@v4 # Use the latest upload artifact action
-        with:
-          name: outdoorlads-events-csv # Name of the artifact zip file
-          path: outdoorlads_events.csv # Path to the file to upload
-          if-no-files-found: error # Optional: Fail step if CSV is not generated
+    - name: Upload events.csv
+      uses: actions/upload-artifact@v2
+      with:
+        name: events
+        path: events.csv
