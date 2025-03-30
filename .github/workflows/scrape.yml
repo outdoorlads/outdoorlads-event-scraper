@@ -2,34 +2,33 @@ name: Scrape OutdoorLads Events
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Every hour
-  workflow_dispatch: {}  # Manual trigger
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:       # Manual trigger option
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
           pip install requests beautifulsoup4
 
       - name: Run scraper
-        run: |
-          python outdoorlads_scraper.py
+        run: python outdoorlads_scraper.py
 
-      - name: Commit updated data
+      - name: Commit changes
         run: |
+          git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions"
-          git add odl_events.json || echo "No odl_events.json to add"
-          git commit -m "Update event data" || echo "No changes to commit"
-          git push origin HEAD:main
+          git add odl_events.json
+          git diff --cached --quiet || git commit -m "Update event data [automated]"
+          git push
