@@ -30,7 +30,7 @@ jobs:
         python event_scraper.py
 
     - name: Upload events.csv
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: events
         path: events.csv
