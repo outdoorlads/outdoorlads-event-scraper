@@ -10,7 +10,8 @@ def get_event_links(page_url):
     res = requests.get(page_url)
     soup = BeautifulSoup(res.text, 'html.parser')
     links = [urljoin("https://www.outdoorlads.com", a['href'])
-             for a in soup.select('.event-title a')]
+             for a in soup.select('.views-field-title a')]
+    print(f"Found {len(links)} event links on {page_url}")
     return links
 
 def get_event_details(event_url):
@@ -33,8 +34,7 @@ def get_event_details(event_url):
     event_type_label = soup.find('div', string="Event type")
     event_type = event_type_label.find_next_sibling('div').text.strip() if event_type_label else "Unknown"
 
-    availability_el = soup.select_one('.availability')
-    availability = availability_el.text.strip() if availability_el else "Unknown"
+    availability = soup.select_one('.availability').text.strip() if soup.select_one('.availability') else "Unknown"
 
     waitlist = "0"
     if 'waitlist' in availability.lower():
@@ -60,7 +60,7 @@ def get_event_details(event_url):
 
 def scrape_events():
     all_events = []
-    for page in range(0, 100):
+    for page in range(0, 100):  # Adjust upper limit if needed
         page_url = BASE_URL.format(page)
         print(f"Scraping page {page}: {page_url}")
         event_links = get_event_links(page_url)
@@ -73,7 +73,7 @@ def scrape_events():
             print(f"Scraping event: {event_link}")
             event_details = get_event_details(event_link)
             all_events.append(event_details)
-            time.sleep(1)
+            time.sleep(1)  # Be respectful to the server
 
     return all_events
 
