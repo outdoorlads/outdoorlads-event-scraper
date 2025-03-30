@@ -1,95 +1,155 @@
+# -*- coding: utf-8 -*-
+"""
+OutdoorLads Event Scraper
+
+This script scrapes event data from the OutdoorLads website (outdoorlads.com/events).
+It handles pagination on the main event list and then visits each individual
+event page to extract detailed information.
+
+DISCLAIMER:
+- ALWAYS check outdoorlads.com/robots.txt and their Terms of Service before running.
+- Scraping may be against their terms; proceed at your own risk.
+- Use responsibly: Adjust DELAYS to avoid overloading their server.
+- Website structure WILL change. The CSS selectors below are examples and
+  MUST be updated by inspecting the live website's HTML using browser
+  developer tools (Right-click -> Inspect).
+"""
+
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
-from datetime import datetime
 import time
+import csv
+from urllib.parse import urljoin # To construct absolute URLs
+import re # For potentially extracting numbers
+import os # To construct file paths relative to the script
 
-BASE_URL = "https://www.outdoorlads.com"
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-                  " AppleWebKit/537.36 (KHTML, like Gecko)"
-                  " Chrome/120.0.0.0 Safari/537.36"
+# --- Configuration ---
+BASE_URL = 'https://www.outdoorlads.com'
+EVENTS_LIST_PATH = '/events'
+# IMPORTANT: Identify your scraper responsibly! Replace with your details.
+# Using a generic user agent can sometimes help avoid blocks, but a custom one is more transparent.
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    # Alternatively, be more specific (replace with YOUR details):
+    # 'User-Agent': 'OutdoorLadsEventDataCollector/1.1 (For AI Project; contact: your-email@example.com; +https://github.com/your-username/your-repo)'
 }
+# DELAYS - Increase if you get blocked or want to be more respectful
+DELAY_LIST_PAGE = 7  # Seconds between requests for list pages (e.g., /events?page=1)
+DELAY_EVENT_PAGE = 4 # Seconds between requests for individual event pages
+MAX_PAGES_TO_TRY = 100 # Safety limit for pagination, adjust as needed
+OUTPUT_FILENAME = 'outdoorlads_events.csv'
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_FILEPATH = os.path.join(SCRIPT_DIR, OUTPUT_FILENAME)
 
-events = []
 
-for page_num in range(0, 100):
-    print(f"Scraping page {page_num}...")
-    page_url = f"{BASE_URL}/events?page={page_num}"
-    page_response = requests.get(page_url, headers=headers)
-    soup = BeautifulSoup(page_response.content, "html.parser")
+# --- Helper Function to Get Soup ---
+def get_soup(url):
+    """Fetches a URL and returns a BeautifulSoup object, handles errors."""
+    try:
+        print(f"Fetching: {url}")
+        # Consider adding proxies or rotating user-agents if facing blocks,
+        # but that adds complexity and potential cost.
+        response = requests.get(url, headers=HEADERS, timeout=25) # Increased timeout
+        response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx)
+        # Using lxml parser if installed - generally faster
+        soup = BeautifulSoup(response.text, 'lxml')
+        return soup
+    except ImportError: # Fallback if lxml not installed
+         soup = BeautifulSoup(response.text, 'html.parser')
+         return soup
+    except requests.exceptions.Timeout:
+        print(f"Timeout error fetching {url}")
+        return None
+    except requests.exceptions.RequestException as e:
+        print(f"Request error fetching {url}: {e}")
+        return None
+    except Exception as e:
+        print(f"Error parsing {url}: {e}")
+        return None
 
-    event_listings = soup.select('div.views-row')
-    
-    if not event_listings:
-        print("No more events found, stopping.")
-        break
+# --- Function to Scrape Details from a Single Event Page ---
+def scrape_event_details(event_url):
+    """Scrapes the required details from an individual event page."""
+    soup = get_soup(event_url)
+    if not soup:
+        return None
 
-    for event in event_listings:
-        link_tag = event.select_one('.views-field-title a')
-        if link_tag:
-            event_link = urljoin(BASE_URL, link_tag['href'])
-            event_title = link_tag.text.strip()
+    # Use a dictionary with default N/A values
+    details = {
+        'Title': 'N/A', 'Date': 'N/A', 'Start Time': 'N/A', 'Region': 'N/A',
+        'Location': 'N/A', 'EventType': 'N/A', 'Availability': 'N/A',
+        'Waitlist': 'N/A', 'Summary': 'N/A', 'Link': event_url
+    }
 
-            event_page_response = requests.get(event_link, headers=headers)
-            event_soup = BeautifulSoup(event_page_response.content, "html.parser")
+    # --- !!! CRITICAL: UPDATE THESE SELECTORS !!! ---
+    # Inspect the HTML of actual event pages using browser developer tools.
+    # These examples are highly likely to be INCORRECT for the current site.
+    try:
+        # Event Title (Example: <h1 class="page-title">Event Name</h1>)
+        title_tag = soup.find('h1', class_='page-title') # <<< CHECK SELECTOR
+        if title_tag: details['Title'] = title_tag.text.strip()
 
-            # Event details
-            date = event_soup.select_one('.date-display-single').text.strip() if event_soup.select_one('.date-display-single') else "Unknown"
-            
-            start_time_label = event_soup.find('div', string="Start time")
-            start_time = start_time_label.find_next_sibling('div').text.strip() if start_time_label else "Unknown"
-            
-            region_label = event_soup.find('div', string="Region")
-            region = region_label.find_next_sibling('div').text.strip() if region_label else "Unknown"
+        # Details Block (Example: <div class="event-info">...</div> or <aside>...)
+        details_block = soup.find('div', class_='event-details-sidebar') # <<< CHECK SELECTOR
+        if not details_block:
+             details_block = soup.find('aside', id='event-sidebar') # <<< ALTERNATIVE GUESS - CHECK
 
-            location_label = event_soup.find('div', string="Venue")
-            location = location_label.find_next_sibling('div').text.strip() if location_label else "Unknown"
+        if details_block:
+            # Date/Time (Example: <span class="event-date">Sat 20 Apr 2025</span> <span class="event-time">10:00am</span>)
+            date_tag = details_block.find('span', class_='event-date') # <<< CHECK SELECTOR
+            time_tag = details_block.find('span', class_='event-time') # <<< CHECK SELECTOR
+            if date_tag: details['Date'] = date_tag.text.strip()
+            if time_tag: details['Start Time'] = time_tag.text.strip()
+            # More complex date/time might be in one tag requiring parsing:
+            # dt_tag = details_block.find('div', class_='datetime')
+            # if dt_tag: ... parse dt_tag.text ...
 
-            event_type_label = event_soup.find('div', string="Event type")
-            event_type = event_type_label.find_next_sibling('div').text.strip() if event_type_label else "Unknown"
-
-            availability_el = event_soup.select_one('.availability')
-            availability = availability_el.text.strip() if availability_el else "Unknown"
-
-            waitlist = "0"
-            if 'waitlist' in availability.lower():
-                waitlist = ''.join(filter(str.isdigit, availability.lower().split('waitlist')[1]))
-
-            summary_el = event_soup.select_one('.event-description .field-item')
-            summary = summary_el.text.strip() if summary_el else "No description available."
-
-            # Structured event data
-            event_data = {
-                "Title": event_title,
-                "Date": date,
-                "Start Time": start_time,
-                "Region": region,
-                "Location": location,
-                "Event Type": event_type,
-                "Availability": availability,
-                "Waitlist": waitlist,
-                "Summary": summary,
-                "Link": event_link
+            # Labeled Data (Example: <div class="field"><div class="field__label">Region:</div><div class="field__item">Wales</div></div>)
+            labels_map = {
+                'Region': 'Region',
+                'Location': 'Location',
+                'Event Type': 'EventType',
+                'Places Remaining': 'Availability', # Or maybe just "Availability:"
+                'Waiting List': 'Waitlist'
             }
+            # Find all potential label/value pairs
+            # This selector is very generic - needs refinement based on actual structure
+            all_items = details_block.find_all(['div', 'p', 'li'], class_=re.compile(r'(field|item|detail)')) # <<< GUESS - CHECK
 
-            events.append(event_data)
-            print(f"Scraped event: {event_title}")
-            time.sleep(1)  # respectful scraping delay
+            for item in all_items:
+                 # Try finding label text within the item
+                 label_tag = item.find(class_=re.compile(r'(label|title|heading)')) # <<< GUESS - CHECK
+                 label_text = ""
+                 if label_tag:
+                     label_text = label_tag.text.strip().replace(':', '')
+                 else: # Sometimes label is just bold text before value
+                      bold_tag = item.find('strong')
+                      if bold_tag: label_text = bold_tag.text.strip().replace(':','')
 
-# Saving the results to a nicely formatted text file
-with open("OutdoorLads_events.txt", "w", encoding="utf-8") as file:
-    for event in events:
-        file.write(f"{event['Title']}\n")
-        file.write(f"Date: {event['Date']}\n")
-        file.write(f"Start Time: {event['Start Time']}\n")
-        file.write(f"Region: {event['Region']}\n")
-        file.write(f"Location: {event['Location']}\n")
-        file.write(f"Event Type: {event['Event Type']}\n")
-        file.write(f"Availability: {event['Availability']}\n")
-        file.write(f"Waitlist: {event['Waitlist']}\n")
-        file.write(f"Summary: {event['Summary']}\n")
-        file.write(f"Link: {event['Link']}\n")
-        file.write("-" * 40 + "\n")
+                 # Try finding value text (may need specific class or be sibling/child)
+                 value_tag = item.find(class_=re.compile(r'(value|item|content)')) # <<< GUESS - CHECK
+                 value_text = ""
+                 if value_tag:
+                     value_text = value_tag.text.strip()
+                 else: # If no specific value tag, take item text excluding label
+                      value_text = item.text.strip()
+                      if label_text and value_text.startswith(label_text):
+                           value_text = value_text[len(label_text):].strip().lstrip(':').strip()
 
-print(f"\nScraping completed. {len(events)} events saved to OutdoorLads_events.txt")
+
+                 if label_text in labels_map:
+                     output_key = labels_map[label_text]
+                     if output_key in ['Availability', 'Waitlist']:
+                         match = re.search(r'\d+', value_text) # Extract number
+                         details[output_key] = match.group(0) if match else value_text
+                     else:
+                         details[output_key] = value_text
+
+
+        # Summary (Example: <div class="event-description">...</div> or <div property="content:encoded">)
+        summary_block = soup.find('div', property='content:encoded') # <<< CHECK SELECTOR (Drupal)
+        if not summary_block:
+            summary_block = soup.find('div', class_='event-description') # <<< CHECK SELECTOR
+        if summary_block:
+            # Get text, replace multiple whitespace/newlines with single space
+            details['Summary
