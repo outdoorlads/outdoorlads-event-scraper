@@ -2,35 +2,37 @@ name: Scrape OutdoorLads Events
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight UTC
-  workflow_dispatch:
+    - cron: '0 * * * *'
+  workflow_dispatch: {}
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        python -m venv venv
-        source venv/bin/activate
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
 
-    - name: Run scraper
-      run: |
-        source venv/bin/activate
-        python event_scraper.py
+      - name: Run scraper
+        run: python outdoorlads_scraper.py
 
-    - name: Upload events.csv
-      uses: actions/upload-artifact@v3
-      with:
-        name: events
-        path: events.csv
+      - name: Upload CSV file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: outdoorlads-events
+          path: events.csv
+
+      - name: Commit files back to repo
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions"
+          git add events.csv
+          git commit -m "Updated events data" || echo "No changes to commit"
+          git push origin HEAD:main
