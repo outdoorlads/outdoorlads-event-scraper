@@ -1,34 +1,37 @@
-name: Scrape OutdoorLads
+name: Scrape OutdoorLads Events
 
 on:
+  # Run automatically every day at 05:00 UTC (adjust as needed)
   schedule:
-    - cron: '0 * * * *'
-  workflow_dispatch: {}
+    - cron: '0 5 * * *'
+
+  # Allow manual triggering from the GitHub Actions tab
+  workflow_dispatch:
 
 jobs:
   scrape:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Use the latest Ubuntu runner
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out repository code
+        uses: actions/checkout@v4 # Use the latest checkout action
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # Use the latest Python setup action
         with:
-          python-version: '3.10'
+          python-version: '3.10' # Specify Python version (adjust if needed)
 
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4 pandas
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Run scraper
-        run: |
-          python outdoorlads_scraper.py
+        run: python outdoorlads_scraper.py
 
-      - name: Commit updated data
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions"
-          git add odl_events.json debug_page_0.html || echo "No files to add"
-          git commit -m "Update event data or debug file" || echo "No changes to commit"
-          git push origin HEAD:main
+      - name: Upload results as artifact
+        uses: actions/upload-artifact@v4 # Use the latest upload artifact action
+        with:
+          name: outdoorlads-events-csv # Name of the artifact zip file
+          path: outdoorlads_events.csv # Path to the file to upload
+          if-no-files-found: error # Optional: Fail step if CSV is not generated
