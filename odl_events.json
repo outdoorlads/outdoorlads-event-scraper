@@ -28,9 +28,9 @@
     "Date": "Saturday Sat 23 2026",
     "Region": "Unknown",
     "Event Type": "BIG Spring Camp",
-    "Places Left": "2",
+    "Places Left": "1",
     "Waitlist": "0",
-    "People Attending": "4",
+    "People Attending": "5",
     "Summary": "This is one of the events organised as part of\nBIG Spring Camp 2026\n.\nAlways a favourite BIG Spring Camp activity, white water rafting at the National White Water Centre means taking on the challenging Afon Tryweryn where you'll be swept through crashing waves and boulder strewn rapids on this fast flowing Welsh mountain river.\nThis two hour session takes you down the Upper Tryweryn’s grade 3-4 natural, Welsh mountain white water rapids, with enough time to usually fit in 4 exciting and challenging runs of the 1.5km section!\nCurious?\nHere's a video from BSC15\n!\nPlease note that to attend this event, you must have a weight of under 115kg (18st) and be able to swim at least 25 metre\nIf this event fills and a waiting list forms, we will look to increase capacity wherever possible.\nPhotos: From OutdoorLads Members at BIG Spring Camp 2024 & 2025",
     "Difficulty & Distance": "A reasonable level of fitness will be required to paddle",
     "Link": "https://www.outdoorlads.com/events/bsc26-ultimate-white-water-rafting-sat-am-session-2-260523"
@@ -40,9 +40,9 @@
     "Date": "Saturday Mon 04 2026",
     "Region": "Unknown",
     "Event Type": "Lowland and Hill Walks",
-    "Places Left": "14",
+    "Places Left": "13",
     "Waitlist": "0",
-    "People Attending": "6",
+    "People Attending": "7",
     "Summary": "Stockport is home to a variety of footpaths and national trails interspersed with suburban sprawl. As such we can quickly feel like we are in the open countryside even when we are close to built-up areas. On this 15.5 km (~9.6 mile) walk we will visit a variety of local points of interest, including:\nEtherow Country Park, one of England's first country parks\nThe Peak Forest Canal and Marple lock flight\nGreater Manchester's first vineyard\nMellor archeological site\nBrabyns Park\nAre you new to Outdoorlads and considering your first event?\nHave a look at this link, hopefully it will help.\nhttps://www.outdoorlads.com/my-first-event\nDon’t worry if the event is full.\nDo\nsign up and join the waiting list.\nOften those on the main list cancel nearer the time.\nThere is a very high chance you will still get a place\nImage credits:\nAll images for this event were taken by the event leader and are used here with permission.",
     "Difficulty & Distance": "15.5 km or about 9.6 miles, 400m ascent.",
     "Link": "https://www.outdoorlads.com/events/marple-mellor-day-walk-260504"
@@ -444,18 +444,6 @@
     "Link": "https://www.outdoorlads.com/events/bsc26-snowdonia-waterfalls-circular-sun-260524"
   },
   {
-    "Title": "BSC26: National Trust Bodnant Gardens (Sun)",
-    "Date": "Saturday Sun 24 2026",
-    "Region": "Unknown",
-    "Event Type": "BIG Spring Camp",
-    "Places Left": "0",
-    "Waitlist": "0",
-    "People Attending": "20",
-    "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nA chilled Sunday stroll around National Trust's Bodnant Gardens, a 13 minute drive away.  If the weather is nice, bring a picnic and blanket to chill amongst the plants.\nThe word famous Laburnum Arch, which extends 55m should be bloom and an ideal time to go visit.\nEntry to the grounds for non-members is £19 and free for National Trust members.\nPhotos:\nTaken by the leader and used with his permission.",
-    "Difficulty & Distance": "All welcome",
-    "Link": "https://www.outdoorlads.com/events/bsc26-national-trust-bodnant-gardens-sun-260524"
-  },
-  {
     "Title": "BSC26: Marin MTB (Sun)",
     "Date": "Saturday Sun 24 2026",
     "Region": "Unknown",
@@ -466,6 +454,18 @@
     "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nToday's ride will be lead by our partners\nOUTMTB\n, so if you're on\nSpond\nplease sign up there and leave this event page for the others.\nAfter the inevitable kit faff that is involved with all mountain biking trips we will head up to Gwydir Mawr (Marin trail). on the Sunday morning.\nThis ride covers the gem that is the Gwydir Mawr (Marin trail). With its beautifully sculpted berms, table top jumps and natural sections, this ride really has it all. This is a 25 km ride on predominantly red graded trails with several extensive climbs and some awe-inspiring descents that will leave you breathless. Literally. This makes it a very technically and physically demanding ride for experienced mountain bikers with good stamina on mountain bikes\nPlease note this ride is only suitable for experienced MTB riders\non good mountain bikes. (Not suitable for beginners or hybrid bikes, sorry!)\nPhotos:\nTaken by event leaders and used by OutdoorLads with permission.",
     "Difficulty & Distance": "25 km - 5 hours",
     "Link": "https://www.outdoorlads.com/events/bsc26-marin-mtb-sun-260524"
+  },
+  {
+    "Title": "BSC26: National Trust Bodnant Gardens (Sun)",
+    "Date": "Saturday Sun 24 2026",
+    "Region": "Unknown",
+    "Event Type": "BIG Spring Camp",
+    "Places Left": "0",
+    "Waitlist": "0",
+    "People Attending": "20",
+    "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nA chilled Sunday stroll around National Trust's Bodnant Gardens, a 13 minute drive away.  If the weather is nice, bring a picnic and blanket to chill amongst the plants.\nThe word famous Laburnum Arch, which extends 55m should be bloom and an ideal time to go visit.\nEntry to the grounds for non-members is £19 and free for National Trust members.\nPhotos:\nTaken by the leader and used with his permission.",
+    "Difficulty & Distance": "All welcome",
+    "Link": "https://www.outdoorlads.com/events/bsc26-national-trust-bodnant-gardens-sun-260524"
   },
   {
     "Title": "BSC26: Aber Falls Circular and Whisky Wind-down (Sun)",
@@ -492,18 +492,6 @@
     "Link": "https://www.outdoorlads.com/events/bsc26-llyn-crafnant-sun-260524"
   },
   {
-    "Title": "BSC26: Cycling Along the North Wales coast, Bangor and the Las Ogwen Cycleway (Sun)",
-    "Date": "Saturday Sun 24 2026",
-    "Region": "Unknown",
-    "Event Type": "BIG Spring Camp",
-    "Places Left": "9",
-    "Waitlist": "0",
-    "People Attending": "3",
-    "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nJoin us on a circular ride along the stunning North Wales coastline, Bangor and the Lon Las Ogwen cycle path.\nThis event is suitable for intermediate/experienced cyclists as we will be cycling at a steady pace for approximately 50 miles (80km). The route is hilly - this is Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 - (about 1750 of climb) but we will have plenty of rest stops and we will not leave anyone behind.\nRoute information\nWe head north from the campsite to Conwy and then west along the stunning, vast, sand and skyline of the North Wales coast.\nWe will leave the coast just shy of Bangor - a quick trip to the old cathedral city is also an option! Then we will head inland in the direction of Lon Las Ogwen and the first section of National Cycle Network Route 82, which runs from Bangor, entering the Snowdonia National Park at Bethesda.\nIt largely follows the route of the old railway line that carried slate down the valley from the Bethesda slate quarry to the coast where it was shipped around the world. The route is listed in the Guardian's \"\nFive of the best scenic bike rides in Wales\n\".\nWhen we reach Llyn Ogwen, a beautiful ribbon-like lake, we'll cycle along the A5 between two of Snowdonia's mountain ranges, the Carneddau and the Glyderau. We will then continue on the A5 alongside the river to Capel Currig before turning off the main road at Pont-Cyfyng and onwards to the final stretch of our cycle back to the campsite through the wooded foothills of Mynydd Bwlchyrhaearn and then a well-earned pint or two at the bar.\nNote: I've tried to avoid too many A-roads, but a short section is unavoidable - most of it is on quiet, scenic roads.\nClick here for an overview of the cycle ride:\nhttps://explore.osmaps.com/route/21178229/odl-cycle-north-wales-coastline-bangor-and-las-ogwen\nThis trip is suitable for\nroad or hybrid bikes\n.\nPhotos taken by event leader.\nIMPORTANT! - Participation Statement\nYou\nMUST\ncomplete the\nCycling Participation Statement\nin addition\nto booking your event space\nbefore\nattending a cycling event.",
-    "Difficulty & Distance": "Distance 50 miles (80km). The route is hilly - this is Wales - (about 1750m of climb)",
-    "Link": "https://www.outdoorlads.com/events/bsc26-cycling-along-north-wales-coast-bangor-and-las-ogwen-cycleway-sun-260524"
-  },
-  {
     "Title": "BSC26: Industry, Mythology and Ice Cream Walk (Sun)",
     "Date": "Saturday Sun 24 2026",
     "Region": "Unknown",
@@ -514,6 +502,18 @@
     "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nJoin Will and OutdoorLads for a hiking tour into the history & legends of Cwm Bychan, through the leafy forests of the Aberglaslyn valley, navigating abandoned copper mine facilities nestled in a mountain pass, before treading carefully around Llyn Dinas and the ancient ruins of the Dinas Emrys castle, both steeped in history & Arthurian legend. All topped off with an award winning ice cream at the end.\nStarting off in\nBeddgelert\n, a charming Snowdonia village at the confluence of two rivers to form the River Glaslyn and home of the legend of Prince Llewelyn’s dog, Gelert. After parking in the main car park, we will walk through to the riverside and past\nGelert’s grave\n. Then crossing the Welsh Highland Railway track, proceed riverside through the\nAberglaslyn Pass\nalong the narrow but picturesque\nFisherman’s Walk\nto Pont Aberglaslyn. Following the path through the\nNantmor forest\nand the ascent out into\nCwm Bychan\n, navigating the abandoned mechanical remains of the\n17th Century copper mine\nfacilities. At the summit of the Cwm, we will descend down to the lake\nLlyn Dinas\n, the site of an Arthurian mythological battle; walking along its banks to start a second ascent, weather and time dependent, partly via the\nWatkin Path,\nstopping at the ancient ruins of\nDinas Emrys\ncastle, a relic of Iron Age history and Arthurian legend that was said to be built upon a giant dragon's tomb. We will then cross\nMerlin's Pool\n& waterfall before following the River Gwynant past the\nSygun Copper Mine\nback to Beddgelert for some refreshments and amazing ice cream can be found (highly recommend the strawberry cheesecake flavour!)\nThis event is a circular walk, meeting at the BSC campsite first at 8.30am before driving to the nearby village of Beddgelert; carpooling available. It will be a full day so you’ll need a packed lunch, some snacks and plenty of fluid to drink. Walking boots are essential, as the ground is rough in places and may be wet and muddy, depending on the weather.\nNote that this is not a stroll in the park: it’s a serious 18km walk with 2 ascents as we climb through the Cwm Bychan valley (ascent is approx 400 meters) - you will need a decent level of fitness. On the day, I may need to shorten the hike if the weather is not ideal, but it will still be a great trip. If you want to take a look at the route, it is available on\nOS Maps.\nApprox Itinerary\n8.30 - meet at BSC assembly point, leave for Beddgelert 8.40.\n9:15 - arrive at Beddgelert.\n13:30 - stop for lunch.\n15:00/16:00 - Arrival back at Beddgelert for ice cream, maybe a beer/beverage, then back to camp\nYour First OutdoorLads Walk Event?\nWe know that new members in particular like to know in advance more about what an OutdoorLads event will be like.\nIf this is your first OutdoorLads event, you should check out the information designed specifically for you on the My First Event page on the OutdoorLads website. But please do not hesitate and contact Will if you have any questions.\nPhoto Credits: Taken by Tom Benians\nIMPORTANT! - Participation Statement\nYou MUST complete a\nParticipation Statement\n,\nin addition\nto booking your event space before attending an OutdoorLads event. You only need to complete this Participation Statement once, not for each event you attend.",
     "Difficulty & Distance": "This is a 18km hike with 2 ascents and up to 5-6 hours of trekking. It is not for the faint hearted or those with low levels of fitness.",
     "Link": "https://www.outdoorlads.com/events/bsc26-industry-mythology-and-ice-cream-walk-sun-260524"
+  },
+  {
+    "Title": "BSC26: Cycling Along the North Wales coast, Bangor and the Las Ogwen Cycleway (Sun)",
+    "Date": "Saturday Sun 24 2026",
+    "Region": "Unknown",
+    "Event Type": "BIG Spring Camp",
+    "Places Left": "9",
+    "Waitlist": "0",
+    "People Attending": "3",
+    "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nJoin us on a circular ride along the stunning North Wales coastline, Bangor and the Lon Las Ogwen cycle path.\nThis event is suitable for intermediate/experienced cyclists as we will be cycling at a steady pace for approximately 50 miles (80km). The route is hilly - this is Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 - (about 1750 of climb) but we will have plenty of rest stops and we will not leave anyone behind.\nRoute information\nWe head north from the campsite to Conwy and then west along the stunning, vast, sand and skyline of the North Wales coast.\nWe will leave the coast just shy of Bangor - a quick trip to the old cathedral city is also an option! Then we will head inland in the direction of Lon Las Ogwen and the first section of National Cycle Network Route 82, which runs from Bangor, entering the Snowdonia National Park at Bethesda.\nIt largely follows the route of the old railway line that carried slate down the valley from the Bethesda slate quarry to the coast where it was shipped around the world. The route is listed in the Guardian's \"\nFive of the best scenic bike rides in Wales\n\".\nWhen we reach Llyn Ogwen, a beautiful ribbon-like lake, we'll cycle along the A5 between two of Snowdonia's mountain ranges, the Carneddau and the Glyderau. We will then continue on the A5 alongside the river to Capel Currig before turning off the main road at Pont-Cyfyng and onwards to the final stretch of our cycle back to the campsite through the wooded foothills of Mynydd Bwlchyrhaearn and then a well-earned pint or two at the bar.\nNote: I've tried to avoid too many A-roads, but a short section is unavoidable - most of it is on quiet, scenic roads.\nClick here for an overview of the cycle ride:\nhttps://explore.osmaps.com/route/21178229/odl-cycle-north-wales-coastline-bangor-and-las-ogwen\nThis trip is suitable for\nroad or hybrid bikes\n.\nPhotos taken by event leader.\nIMPORTANT! - Participation Statement\nYou\nMUST\ncomplete the\nCycling Participation Statement\nin addition\nto booking your event space\nbefore\nattending a cycling event.",
+    "Difficulty & Distance": "Distance 50 miles (80km). The route is hilly - this is Wales - (about 1750m of climb)",
+    "Link": "https://www.outdoorlads.com/events/bsc26-cycling-along-north-wales-coast-bangor-and-las-ogwen-cycleway-sun-260524"
   },
   {
     "Title": "BSC26: Yr Wyddfa/Snowdon (Sun)",
@@ -576,6 +576,18 @@
     "Link": "https://www.outdoorlads.com/events/bsc26-twin-waters-walk-sat-260523"
   },
   {
+    "Title": "BSC26: Coed-y-Brenin MTB (Sat)",
+    "Date": "Saturday Sat 23 2026",
+    "Region": "Unknown",
+    "Event Type": "BIG Spring Camp",
+    "Places Left": "8",
+    "Waitlist": "0",
+    "People Attending": "1",
+    "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nToday's ride will be lead by our partners\nOUTMTB\n, so if you're on\nSpond\nplease sign up there and leave this event page for the others.\nJoin\nOUTMTB\nfor this ride at the UK’s first (and still one of the best) mountain biking trail centres.\nAfter the inevitable kit faff that is involved with all mountain biking trips we will head up to Coed Y Brenin on the Sunday morning and the plan is to ride the best bits of the red and black trails\nPlease note this ride is only suitable for experienced MTB riders\non good mountain bikes. (Not suitable for beginners or hybrid bikes, sorry!)\nPhotos:\nTaken by event leaders and used by OutdoorLads with permission.",
+    "Difficulty & Distance": "Technical mountain biking 38K black graded 'Beast of Brenin'  5 hours",
+    "Link": "https://www.outdoorlads.com/events/bsc26-coed-y-brenin-mtb-sat-260523"
+  },
+  {
     "Title": "BSC26: Two Lakes and a Waterfall (Sat)",
     "Date": "Saturday Sat 23 2026",
     "Region": "Unknown",
@@ -586,18 +598,6 @@
     "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nStarting at Nant Peris, the walk follows the south-west edge of Llyn Peris to our first stop, Dolbadarn Castle, a 13th-century fortress. From there, we continue to the spectacular Ceunant Mawr Falls and then we'll head into Llanberis, where you can pick up a few bits, before enjoying an early picnic lunch by the shores of Llyn Padarn. We then follow the scenic, oak-fringed Lôn Las Peris, passing water lily ponds, and head on to the westernmost tip of the lakes at Pont Penllyn.\nThen we begin a steady climb up country lanes on the north side of the lakes towards Dinorwig, where excellent views open out across the wider mountainous landscape. From here it's onwards to the Dinorwig Slate Quarry on the slopes of Elidir Fawr, taking in the striking Sinc California and Vivian Quarry. We will then carefully descend via the zig-zag slate paths towards the Vaynol Arms Pub for a well-deserved pint.\nThe walk is moderate, undulating with a few small climbs - this is Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 - totalling about 450 m. The walk is approximately 19 km in length.\nOS Maps link to walk:\nhttps://explore.osmaps.com/route/31171982/bsc26twolakesawaterfallnantperisllanberis\nI can send you a GPX file, just drop us a line.\nAfter meeting at BSC to arrange car shares, the walk will begin from the Park & Ride car park at Nant Paris .\nThis activity is also suitable for anyone taking part in the Conwy Parkrun (or up a bit late)!\nPhotos taken by event leader and are free to use for OutdoorLads.\nIMPORTANT! - Participation Statement\nYou MUST complete a\nParticipation Statement\n,\nin addition\nto booking your event space before attending an OutdoorLads event. You only need to complete this Participation Statement once, not for each event you attend.",
     "Difficulty & Distance": "There are a few long hills - this is Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 - and the steep descent through the slate quarry can be slippy underfoot.",
     "Link": "https://www.outdoorlads.com/events/bsc26-two-lakes-and-waterfall-sat-260523"
-  },
-  {
-    "Title": "BSC26: Llandudno and the Great Orme (Sat)",
-    "Date": "Saturday Sat 23 2026",
-    "Region": "Unknown",
-    "Event Type": "BIG Spring Camp",
-    "Places Left": "23",
-    "Waitlist": "0",
-    "People Attending": "7",
-    "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nAn 8 mile walk along Conwy Sands and The North Wales Coastal Path, exploring Great Ormes Head and visiting Victorian Llandudno. This walk involves a short drive to the start.\nThis is an easy going walk combined with some light hearted tourism and is a contrast from the seriousness of the mountains.\nExpect some fantastic coastal views looking back towards Snowdonia and out towards The Isle of Man. We start off along the shore line overlooking the vast expanse of Conwy Sands and Conwy Bay.\nWe will then go around the circumference and climb up onto the summit of The Great Orme - a headland jutting out into The Irish Sea. The geology, wildlife, archaeology and landscape of the Great Orme (Pen-y-Gogarth) on the Creuddyn Peninsula is of such importance that much of the headland has been designated a Special Area of Conservation, a Site of Special Scientific Interest and a Heritage Coast.\nWe will visit the Visitor Centre where you can buy refreshments and souvenirs. We will see the Victorian Electric Tramway and possibly the wild Kashmiri Goats. We will make our way to the famous Victorian resort of Llandudno passing the ski slope, Happy Valley and the pier.\nThere will be an opportunity to buy Fish and Chips or possibly get a drink before heading back to the camp site.\nAll photos taken by Andrew.\nIMPORTANT! - Participation Statement\nYou MUST complete a\nParticipation Statement\n,\nin addition\nto booking your event space before attending an OutdoorLads event. You only need to complete this Participation Statement once, not for each event you attend.",
-    "Difficulty & Distance": "an easy 8 mile walk with a few steep bits",
-    "Link": "https://www.outdoorlads.com/events/bsc26-llandudno-and-great-orme-sat-260523"
   },
   {
     "Title": "BSC26: Coed-y-Brenin MTB (Sat)",
@@ -612,18 +612,6 @@
     "Link": "https://www.outdoorlads.com/events/bsc26-coed-y-brenin-mtb-sat-260523"
   },
   {
-    "Title": "BSC26: The High Carneddau & Aber Falls (Sat)",
-    "Date": "Saturday Sat 23 2026",
-    "Region": "Unknown",
-    "Event Type": "BIG Spring Camp",
-    "Places Left": "0",
-    "Waitlist": "0",
-    "People Attending": "20",
-    "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nExperience the wilder side of Eryri!\nWhile many visitors flock to the busy paths of Yr Wyddfa, we’ll be heading to the northern reaches of the Carneddau—a vast, undulating plateau that offers some of the best \"big mountain\" feelings in Wales.\nOur journey begins near the village of Abergwyngregyn. We’ll start with a steady climb that grants us a spectacular bird's-eye view of the famous\nRhaeadr-fawr (Aber Falls)\n. From there, we leave the crowds behind as we head into the high country.\nThe Route Highlights:\nThe Big Peaks:\nWe’ll be bagging several summits, including\nLlwytmor\n, the massive\nFoel-fras\n(942m), and the beautifully named\nCarnedd Gwenllian\n.\nThe Views:\nOn a clear day, you’ll see across the Menai Strait to Anglesey and out toward the Irish Sea.\nThe Descent:\nWe’ll return via\nDrum\nand the shores of\nLlyn Anafon\n, following a historic mountain track that leads us gently back down to the valley.\nThis is a\nstrenuous mountain walk\ncovering approximately 15-17km with significant elevation gain. It’s perfect for those looking to stretch their legs, enjoy some remote wilderness, and chat with fellow OutdoorLads in a stunning setting. Whether this is your first BSC or your tenth, the Carneddau never fails to impress.\nPhoto Credits:\nAll photos taken by OutdoorLads members and permission is granted to OutdoorLads for further use.",
-    "Difficulty & Distance": "Approximately 11 miles with an elevation of over 3000 ft during the day.",
-    "Link": "https://www.outdoorlads.com/events/bsc26-high-carneddau-aber-falls-sat-260523"
-  },
-  {
     "Title": "BSC26:  Moel Siabod Hike (Sat)",
     "Date": "Saturday Sat 23 2026",
     "Region": "Unknown",
@@ -636,16 +624,16 @@
     "Link": "https://www.outdoorlads.com/events/bsc26-moel-siabod-hike-sat-260523"
   },
   {
-    "Title": "BSC26: Conwy parkrun (Sat)",
+    "Title": "BSC26: The High Carneddau & Aber Falls (Sat)",
     "Date": "Saturday Sat 23 2026",
     "Region": "Unknown",
     "Event Type": "BIG Spring Camp",
-    "Places Left": "6",
+    "Places Left": "0",
     "Waitlist": "0",
-    "People Attending": "14",
-    "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nJoin Richard for\nConwy parkrun\n,\nwhich is the closest parkrun to where we will be staying.\nCourse Description:\nThe parkrun follows a simple point-to-point route along the banks of the river Conwy, with two short diversions towards Conwy castle on the outward and return section of the event. It is mostly flat, only climbing when it crosses the railway line over a pedestrian bridge. The path used for the parkrun is gravel/tarmac throughout.\nAbout parkrun\nThe course is 5000m (5km) long. This has been accurately measured by parkrun with a professional measuring wheel. You run/walk at your own pace, don't be scared that you may be slower than other people. Some walk, some run, some jog, some do a combination of all three.\nTo take part in a parkrun and get your official time,\nyou will need to have\nregistered\nto receive your all important barcode\n.\nYou will need to bring this barcode with you either printed or on your phone.\nParkrun events are run nationwide and indeed internationally, so once you're signed up you can attend anywhere.  If you don't have a barcode you can still run but won't get a time.\nMeeting point:\nIt is an early start (\n8:00 meet on site for 8:10 departure to drive the 22mins\n. The event takes place at Conwy Cob, Llandudno Junction, Conwy, LL32 8UB, so please be prompt - we will not be able to wait for latecomers.\nIf you are coming along to parkrun and wish to do a walk after you will need to sign up for a walk that starts after 10:00 as you will be hard-pushed to get back and ready for any event leaving at 10.00am or earlier. You will need to drive to the start, and where possible car share.\nPlease see under Location for meeting plans.\nThe full parkrun event link is here:\nhttps://www.parkrun.org.uk/conwy/\nDogs\nparkrun allow one dog per person on a short lead (not extending).  Running with more than one dog, extending leads or waist leads are not permitted at parkrun events.  As a third party event, OutdoorLads does not have any control over this.\nOutdoorLads Running Groups\nIf you want to join the Outdoorlads' national group on the parkrun website, on your parkrun account select Profile, then groups and type \"Outdoorlads (UK)\" and click the Join button.\nYou may also wish to sign up to the\nStrava OutdoorLads running club:\nhttps://www.strava.com/clubs/439735\nPhoto credits - Creative Commons License - Chris Morgan, Arek Adeoye, and Huckster - Unsplash; Colin Renshaw and W Allaway and used with permission",
-    "Difficulty & Distance": "The course is run on a mixture of tarmac paths and gravel paths.",
-    "Link": "https://www.outdoorlads.com/events/bsc26-conwy-parkrun-sat-260523"
+    "People Attending": "20",
+    "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nExperience the wilder side of Eryri!\nWhile many visitors flock to the busy paths of Yr Wyddfa, we’ll be heading to the northern reaches of the Carneddau—a vast, undulating plateau that offers some of the best \"big mountain\" feelings in Wales.\nOur journey begins near the village of Abergwyngregyn. We’ll start with a steady climb that grants us a spectacular bird's-eye view of the famous\nRhaeadr-fawr (Aber Falls)\n. From there, we leave the crowds behind as we head into the high country.\nThe Route Highlights:\nThe Big Peaks:\nWe’ll be bagging several summits, including\nLlwytmor\n, the massive\nFoel-fras\n(942m), and the beautifully named\nCarnedd Gwenllian\n.\nThe Views:\nOn a clear day, you’ll see across the Menai Strait to Anglesey and out toward the Irish Sea.\nThe Descent:\nWe’ll return via\nDrum\nand the shores of\nLlyn Anafon\n, following a historic mountain track that leads us gently back down to the valley.\nThis is a\nstrenuous mountain walk\ncovering approximately 15-17km with significant elevation gain. It’s perfect for those looking to stretch their legs, enjoy some remote wilderness, and chat with fellow OutdoorLads in a stunning setting. Whether this is your first BSC or your tenth, the Carneddau never fails to impress.\nPhoto Credits:\nAll photos taken by OutdoorLads members and permission is granted to OutdoorLads for further use.",
+    "Difficulty & Distance": "Approximately 11 miles with an elevation of over 3000 ft during the day.",
+    "Link": "https://www.outdoorlads.com/events/bsc26-high-carneddau-aber-falls-sat-260523"
   },
   {
     "Title": "BSC26: Quarry Karts (Sun PM)",
@@ -658,6 +646,18 @@
     "Summary": "Please complete this waiver prior to the event.\nThis is one of the events organised as part of\nBIG Spring Camp 2026\n.\nQuarry Karts is the UK's only mountain cart experience! This is a gravity-fuelled adrenaline rush on a three-wheeled cart. Avoid the obstacles on your way down the 3km slate track! Think you can beat your first time? You'll have a second attempt to set a new PB! If you love go-karting, this takes it to the next level!\nThe unique carts have a low centre of gravity and a widewheel base, so they're super stable. And they have independent hydraulic disc brakes to allow you to slide and drift around corners.\nHOW MANY RUNS?\n2\nDURATION PER RUN\nApproximately 5 mins per run\nFULL EXPERIENCE DURATION\n2 hours\nTRACK LENGTH?\n3km\nOBSTACLES\nChicanes, banked corners, tunnels & more!\nRestrictions\nWeight: Maximum 130kg\nHeight: Minimum 1.2m\nIf you have\nany medical conditions\n, please see\ncheck here\nto ensure you're eligible to attend this event. You can contact\naccessibility@zipworld.co.uk\nprior to attending if you have any concerns.\nPhotos provided by and used with permission from Zip World.",
     "Difficulty & Distance": "Better have your wits about you!",
     "Link": "https://www.outdoorlads.com/events/bsc26-quarry-karts-sun-pm-260524"
+  },
+  {
+    "Title": "BSC26: Conwy parkrun (Sat)",
+    "Date": "Saturday Sat 23 2026",
+    "Region": "Unknown",
+    "Event Type": "BIG Spring Camp",
+    "Places Left": "6",
+    "Waitlist": "0",
+    "People Attending": "14",
+    "Summary": "This is one of the events organised as part of\nBig Spring Camp 2026\n.\nJoin Richard for\nConwy parkrun\n,\nwhich is the closest parkrun to where we will be staying.\nCourse Description:\nThe parkrun follows a simple point-to-point route along the banks of the river Conwy, with two short diversions towards Conwy castle on the outward and return section of the event. It is mostly flat, only climbing when it crosses the railway line over a pedestrian bridge. The path used for the parkrun is gravel/tarmac throughout.\nAbout parkrun\nThe course is 5000m (5km) long. This has been accurately measured by parkrun with a professional measuring wheel. You run/walk at your own pace, don't be scared that you may be slower than other people. Some walk, some run, some jog, some do a combination of all three.\nTo take part in a parkrun and get your official time,\nyou will need to have\nregistered\nto receive your all important barcode\n.\nYou will need to bring this barcode with you either printed or on your phone.\nParkrun events are run nationwide and indeed internationally, so once you're signed up you can attend anywhere.  If you don't have a barcode you can still run but won't get a time.\nMeeting point:\nIt is an early start (\n8:00 meet on site for 8:10 departure to drive the 22mins\n. The event takes place at Conwy Cob, Llandudno Junction, Conwy, LL32 8UB, so please be prompt - we will not be able to wait for latecomers.\nIf you are coming along to parkrun and wish to do a walk after you will need to sign up for a walk that starts after 10:00 as you will be hard-pushed to get back and ready for any event leaving at 10.00am or earlier. You will need to drive to the start, and where possible car share.\nPlease see under Location for meeting plans.\nThe full parkrun event link is here:\nhttps://www.parkrun.org.uk/conwy/\nDogs\nparkrun allow one dog per person on a short lead (not extending).  Running with more than one dog, extending leads or waist leads are not permitted at parkrun events.  As a third party event, OutdoorLads does not have any control over this.\nOutdoorLads Running Groups\nIf you want to join the Outdoorlads' national group on the parkrun website, on your parkrun account select Profile, then groups and type \"Outdoorlads (UK)\" and click the Join button.\nYou may also wish to sign up to the\nStrava OutdoorLads running club:\nhttps://www.strava.com/clubs/439735\nPhoto credits - Creative Commons License - Chris Morgan, Arek Adeoye, and Huckster - Unsplash; Colin Renshaw and W Allaway and used with permission",
+    "Difficulty & Distance": "The course is run on a mixture of tarmac paths and gravel paths.",
+    "Link": "https://www.outdoorlads.com/events/bsc26-conwy-parkrun-sat-260523"
   },
   {
     "Title": "BSC26: Via Ferrata & Abseiling (Sun PM)",
@@ -3364,9 +3364,9 @@
     "Date": "Saturday Sat 18 2026",
     "Region": "Unknown",
     "Event Type": "Lowland and Hill Walks",
-    "Places Left": "6",
+    "Places Left": "7",
     "Waitlist": "0",
-    "People Attending": "15",
+    "People Attending": "14",
     "Summary": "Starting from Alstonefield, which is one of the prettiest villages in the Peak District, we will take a steep descent to meet the River Dove at Milldale and here have a coffee break and a chance to feed the ducks.\nCrossing the footbridge, we will head South, beside the gushing River Dove, where we'll meet a variety of rock features: Dove Holes Caves, Ilam Rock, Lover's Leap and finally the stepping stones that cross the river. Then it's up to the lofty heights of Bunster Hill for stunning views, before crossing the open fields towards Stanshope and back to Alstonefield where a refreshing pint can be had at The George Pub.\nNote:\nIf there are no places left on this event, join the waiting list, as people frequently drop out during the week before an event, and you are likely to get a place.\nWant to keep in touch with what's going on in the Midlands / ODL Central Region?\nJoin our\nCentral Region Telegram Chat Group\n, or the more local\nEast Midlands Telegram Chat Group\nand bookmark our upcoming events list via the short link:\nhttps://outdoorlads.events/central\nAll photos supplied by the Mike Wingfield and permission is granted to ODL for their use and re-use.",
     "Difficulty & Distance": "8 miles 4.5 hours",
     "Link": "https://www.outdoorlads.com/events/river-dove-and-home-bunster-hill-circular-260418"
